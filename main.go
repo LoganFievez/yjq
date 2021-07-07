@@ -34,11 +34,10 @@ func main() {
 	var (
 		output []byte
 		err    error
-		config config.Config
 	)
 
 	if (info.Mode() & os.ModeCharDevice) != 0 {
-		config = handleArgs(false)
+		config := handleArgs(false)
 		// Pas en mode pipe
 		output, err = ioutil.ReadFile(config.Filename)
 		if err != nil {
@@ -47,7 +46,6 @@ func main() {
 
 	} else {
 		// en mode pipe
-		config = handleArgs(true)
 		reader := bufio.NewReader(os.Stdin)
 		for {
 			input, err := reader.ReadBytes('\n')
