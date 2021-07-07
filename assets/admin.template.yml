@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  agent:
+    image: portainer/agent:2.6.0
+    init: true
+    environment:
+      AGENT_CLUSTER_ADDR: tasks.agent
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - admin_network
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+      labels:
+        - traefik.enable=false
+networks:
+  admin_network:
+    driver: overlay
+  traefik_public:
+    external: true
