@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"regexp"
 
@@ -36,10 +35,12 @@ func main() {
 		err    error
 	)
 
+	// fmt.Println(info.Mode())
+
 	if (info.Mode() & os.ModeCharDevice) != 0 {
 		config := handleArgs(false)
 		// Pas en mode pipe
-		output, err = ioutil.ReadFile(config.Filename)
+		output, err = os.ReadFile(config.Filename)
 		if err != nil {
 			panic(err)
 		}
